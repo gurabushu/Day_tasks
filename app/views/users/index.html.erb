@@ -9,8 +9,8 @@
     <div class="calendar-section">
         <%= month_calendar(attribute: :start_date) do |date| %>
             <%= date.day %>
-            <% if @tasks %>
-                <% @tasks.in_period(date, date).each do |task| %>
+            <% if @tasks_by_date[date.to_date] %>
+                <% @tasks_by_date[date.to_date].each do |task| %>
                     <div class="task <%= 'completed' if task.completed? %>">
                         <%= task.task %>
                         <div class="task-info">
