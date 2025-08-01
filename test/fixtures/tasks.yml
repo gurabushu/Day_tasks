@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task_name: MyString
+  created_at_daydatetime: MyString
+  complated_at_day: 2025-08-02 07:54:23
+  status_task: false
+
+two:
+  task_name: MyString
+  created_at_daydatetime: MyString
+  complated_at_day: 2025-08-02 07:54:23
+  status_task: false
