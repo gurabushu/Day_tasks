@@ -1,0 +1,93 @@
+<h1>習慣化アプリ</h1>
+
+<div class="app-navigation">
+    <%= link_to "完了したタスクを見る", completed_users_path, class: "btn btn-outline-success" %>
+</div>
+
+<div class="main-content">
+    <!-- 左側: カレンダー（大きく） -->
+    <div class="calendar-section">
+        <%= month_calendar(attribute: :start_date) do |date| %>
+            <%= date.day %>
+            <% if @tasks %>
+                <% @tasks.in_period(date, date).each do |task| %>
+                    <div class="task <%= 'completed' if task.completed? %>">
+                        <%= task.task %>
+                        <div class="task-info">
+                            <span class="duration"><%= task.duration_days %>日間</span>
+                            <span class="progress"><%= task.progress_percentage %>%</span>
+                        </div>
+                        <% unless task.completed? %>
+                            <%= link_to "完了", complete_task_path(task), method: :patch, class: "complete-btn" %>
+                        <% end %>
+                    </div>
+                <% end %>
+            <% end %>
+        <% end %>
+    </div>
+
+    <!-- 右側: タスク登録フォーム（小さく） -->
+    <div class="task-form-section">
+        <h2>新しい習慣を登録</h2>
+        <%= form_with(model: @task, local: true) do |form| %>
+            <% if @task.errors.any? %>
+                <div class="error-messages">
+                    <h3><%= pluralize(@task.errors.count, "個のエラー") %>があります:</h3>
+                    <ul>
+                        <% @task.errors.full_messages.each do |message| %>
+                            <li><%= message %></li>
+                        <% end %>
+                    </ul>
+                </div>
+            <% end %>
+
+            <div class="field">
+                <%= form.label :task, "タスク名" %>    
+                <%= form.text_field :task, placeholder: "例: 毎日読書する" %>
+            </div>
+
+            <div class="field">
+                <%= form.label :start_date, "開始日" %>
+                <%= form.date_select :start_date, 
+                    start_year: Date.today.year, 
+                    end_year: Date.today.year + 1,
+                    default: Date.today,
+                    use_short_month: true %>
+            </div>
+
+            <div class="field">
+                <%= form.label :end_date, "終了日" %>
+                <%= form.date_select :end_date, 
+                    start_year: Date.today.year, 
+                    end_year: Date.today.year + 1,
+                    default: Date.tomorrow,
+                    use_short_month: true %>
+            </div>
+
+            <div class="actions">   
+                <%= form.submit "登録", class: "submit-btn" %>
+            </div>
+        <% end %>
+
+        <!-- アクティブタスクの一覧 -->
+        <div class="active-tasks-summary">
+            <h3>実行中の習慣</h3>
+            <% if @tasks.any? %>
+                <div class="task-list">
+                    <% @tasks.limit(5).each do |task| %>
+                        <div class="task-summary">
+                            <span class="task-name"><%= truncate(task.task, length: 20) %></span>
+                            <span class="task-progress"><%= task.progress_percentage %>%</span>
+                        </div>
+                    <% end %>
+                </div>
+                <% if @tasks.count > 5 %>
+                    <p class="more-tasks">他 <%= @tasks.count - 5 %>件の習慣</p>
+                <% end %>
+            <% else %>
+                <p class="no-tasks">習慣を登録してみましょう！</p>
+            <% end %>
+        </div>
+    </div>
+</div>
+

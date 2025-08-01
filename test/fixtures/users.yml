@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  email: MyString
+  img: MyString
+  objective: false
+  complated_day_task: false
+  create_day_task: false
+  complated_objective: false
+
+two:
+  name: MyString
+  email: MyString
+  img: MyString
+  objective: false
+  complated_day_task: false
+  create_day_task: false
+  complated_objective: false

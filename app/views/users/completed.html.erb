@@ -1,0 +1,54 @@
+<h1>完了したタスク</h1>
+
+<div class="completed-tasks-page">
+    <div class="page-header">
+        <h2>完了履歴</h2>
+        <%= link_to "タスク管理に戻る", root_path, class: "btn btn-secondary" %>
+    </div>
+
+    <% if @completed_tasks.any? %>
+        <div class="completed-tasks-list">
+            <div class="stats">
+                <p class="total-completed">合計完了タスク数: <strong><%= @completed_tasks.count %>件</strong></p>
+            </div>
+
+            <div class="completed-tasks">
+                <% @completed_tasks.each do |task| %>
+                    <div class="completed-task-card">
+                        <div class="task-header">
+                            <span class="task-name"><%= task.task %></span>
+                            <span class="task-duration"><%= task.duration_days %>日間</span>
+                        </div>
+                        
+                        <div class="task-details">
+                            <div class="task-dates">
+                                <span class="start-date">開始: <%= task.start_date.strftime("%Y/%m/%d") %></span>
+                                <span class="end-date">終了: <%= task.end_date.strftime("%Y/%m/%d") %></span>
+                            </div>
+                            <div class="completion-info">
+                                <span class="completion-date">完了日: <%= task.completed_at.strftime("%Y/%m/%d %H:%M") if task.completed_at %></span>
+                            </div>
+                        </div>
+                        
+                        <div class="task-actions">
+                            <%= link_to "未完了に戻す", incomplete_task_path(task), method: :patch, 
+                                class: "btn btn-sm btn-warning", 
+                                confirm: "このタスクを未完了に戻しますか？" %>
+                            <%= link_to "削除", task_path(task), method: :delete, 
+                                class: "btn btn-sm btn-danger", 
+                                confirm: "このタスクを削除しますか？" %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    <% else %>
+        <div class="no-completed-tasks">
+            <div class="empty-state">
+                <h3>まだ完了したタスクがありません</h3>
+                <p>タスクを完了すると、ここに履歴が表示されます。</p>
+                <%= link_to "新しいタスクを作成", root_path, class: "btn btn-primary" %>
+            </div>
+        </div>
+    <% end %>
+</div>
