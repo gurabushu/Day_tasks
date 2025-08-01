@@ -36,11 +36,13 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  will-change: transform; /* GPU加速 */
 }
 
 .simple-calendar table {
   width: 100%;
   font-size: 14px;
+  border-collapse: collapse;
 }
 
 .simple-calendar th, .simple-calendar td {
@@ -48,6 +50,7 @@
   border: 1px solid #eee;
   vertical-align: top;
   height: 120px;
+  position: relative;
 }
 
 .simple-calendar th {
@@ -62,6 +65,59 @@
 .simple-calendar .day {
   font-weight: bold;
   margin-bottom: 5px;
+}
+
+/* タスク表示の最適化 */
+.task {
+  background: #007bff;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  margin: 2px 0;
+  position: relative;
+  will-change: transform; /* GPU加速 */
+  transition: all 0.2s ease; /* スムーズなアニメーション */
+}
+
+.task:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* カレンダーナビゲーションの日本語化 */
+.simple-calendar .calendar-heading {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  padding: 15px 0;
+}
+
+.simple-calendar .calendar-heading a {
+  color: #007bff;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.simple-calendar .calendar-heading a:hover {
+  background-color: #f8f9fa;
+  color: #0056b3;
+}
+
+/* 曜日のカスタマイズ */
+.simple-calendar .day-of-week {
+  font-weight: bold;
+  text-align: center;
+}
+
+/* 月の表示をカスタマイズ */
+.simple-calendar .month-header {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
 }
 
 /* アクティブタスクサマリー */
@@ -182,16 +238,6 @@
 }
 
 /* タスクのスタイル */
-.task {
-  background: #007bff;
-  color: white;
-  padding: 4px 6px;
-  border-radius: 4px;
-  font-size: 11px;
-  margin: 2px 0;
-  position: relative;
-}
-
 .task.completed {
   background: #28a745;
 }
@@ -210,6 +256,7 @@
   font-size: 9px;
   margin-top: 2px;
   display: inline-block;
+  transition: background-color 0.2s ease;
 }
 
 .complete-btn:hover {

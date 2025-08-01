@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_01_231556) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_01_234004) do
   create_table "tasks", force: :cascade do |t|
     t.boolean "status_task", default: false
     t.datetime "created_at", null: false
@@ -20,6 +20,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_01_231556) do
     t.datetime "start_date"
     t.datetime "end_date"
     t.datetime "completed_at"
+    t.index ["completed_at"], name: "index_tasks_on_completed_at"
+    t.index ["end_date"], name: "index_tasks_on_end_date"
+    t.index ["start_date", "end_date"], name: "index_tasks_on_start_date_and_end_date"
+    t.index ["start_date"], name: "index_tasks_on_start_date"
+    t.index ["status_task"], name: "index_tasks_on_status_task"
   end
 
   create_table "users", force: :cascade do |t|

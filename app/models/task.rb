@@ -10,6 +10,11 @@ class Task < ApplicationRecord
   scope :completed, -> { where(status_task: true) }
   scope :for_date, ->(date) { where(start_date: date.beginning_of_day..date.end_of_day) }
   scope :in_period, ->(start_date, end_date) { where('start_date <= ? AND end_date >= ?', end_date, start_date) }
+  scope :for_month, ->(date) { 
+    month_start = date.beginning_of_month.beginning_of_week
+    month_end = date.end_of_month.end_of_week
+    where('start_date <= ? AND end_date >= ?', month_end, month_start)
+  }
   
   # メソッド
   def complete!
@@ -42,6 +47,13 @@ class Task < ApplicationRecord
     total_days = duration_days
     elapsed_days = (today - start_date.to_date).to_i + 1
     (elapsed_days.to_f / total_days * 100).round(1)
+  end
+  
+  # 指定された日付がタスクの期間内かどうか
+  def covers_date?(date)
+    return false unless start_date && end_date
+    date_only = date.to_date
+    date_only >= start_date.to_date && date_only <= end_date.to_date
   end
   
   private

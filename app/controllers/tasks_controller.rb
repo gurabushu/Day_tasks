@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :complete, :incomplete]
+  before_action :set_task, only: [:complete, :incomplete, :destroy]
 
   def index
     @tasks = Task.active
@@ -14,7 +14,6 @@ class TasksController < ApplicationController
       redirect_to users_path, notice: 'タスクが登録されました'
     else
       @tasks = Task.active
-      @completed_tasks = Task.completed
       render 'users/index'
     end
   end
