@@ -1,13 +1,15 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  task_name: MyString
-  created_at_daydatetime: MyString
-  complated_at_day: 2025-08-02 07:54:23
+  task: "テストタスク1"
+  start_date: <%= Date.current %>
+  end_date: <%= Date.current + 1.day %>
   status_task: false
+  completed_at: null
 
 two:
-  task_name: MyString
-  created_at_daydatetime: MyString
-  complated_at_day: 2025-08-02 07:54:23
-  status_task: false
+  task: "テストタスク2"
+  start_date: <%= Date.current %>
+  end_date: <%= Date.current + 2.days %>
+  status_task: true
+  completed_at: <%= 1.hour.ago %>

@@ -9,13 +9,13 @@
     <div class="calendar-section">
         <%= month_calendar(attribute: :start_date) do |date| %>
             <%= date.day %>
-            <% if @tasks_by_date[date.to_date] %>
+            <% if @tasks_by_date&.key?(date.to_date) && @tasks_by_date[date.to_date]&.any? %>
                 <% @tasks_by_date[date.to_date].each do |task| %>
                     <% unless task.completed? %>
                         <div class="task" 
-                             onclick="completeTask(<%= task.id %>)" 
-                             style="cursor: pointer;" 
-                             title="クリックで完了">
+                            onclick="completeTask(<%= task.id %>)" 
+                            style="cursor: pointer;" 
+                            title="クリックで完了">
                             <%= task.task %>
                             <div class="task-info">
                                 <span class="duration"><%= task.duration_days %>日間</span>
@@ -44,12 +44,12 @@
             <% end %>
 
             <div class="field">
-                <%= form.label :task, "タスク名" %>    
-                <%= form.text_field :task, placeholder: "例: 毎日読書する" %>
+                <%= form.label :task, "タスク名", for: "task_task" %>    
+                <%= form.text_field :task, placeholder: "例: 毎日読書する", id: "task_task" %>
             </div>
 
             <div class="field">
-                <%= form.label :start_date, "開始日" %>
+                <%= form.label :start_date, "開始日", for: "task_start_date_1i" %>
                 <%= form.date_select :start_date, 
                     start_year: Date.today.year, 
                     end_year: Date.today.year + 1,
@@ -59,7 +59,7 @@
             </div>
 
             <div class="field">
-                <%= form.label :end_date, "終了日" %>
+                <%= form.label :end_date, "終了日", for: "task_end_date_1i" %>
                 <%= form.date_select :end_date, 
                     start_year: Date.today.year, 
                     end_year: Date.today.year + 1,
