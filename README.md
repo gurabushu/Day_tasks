@@ -1,24 +1,103 @@
-# README
+# DoThat-Everyday_習慣化アプリ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## １、サービス概要
+日々の習慣化のお助けツール。
+地理も積もれば山となる。千里の道も一歩から。
+モチベーションを維持し、大きな目標の達成を目指そう。
 
-* Ruby version
 
-* System dependencies
+## ２、サービス画像
 
-* Configuration
+---
 
-* Database creation
+## 3、サービスURL
 
-* Database initialization
+---
 
-* How to run the test suite
+## ５、開発の背景
+私自身、１３年間継続してきた習慣があります。
+２２時就寝です。些細なことかもしれませんが、体調も良く３０歳手前ですが今まで一度も
+胃もたれなどしたことがありません。
+他にも色々な早寝早起きの恩恵を受けているのですが、ここでは割愛し、日々の習慣が、その小さな行動の積み重ねが
+数年後に広い意味での莫大な財産となって返ってくることを身をもって知っているつもりです。
+しかし、人間視覚的に物事を捉えないと腑に落とせなかったり、実感やモチベーションが維持できないものだと思います。
+その助けになるべく開発しました。
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+---
 
-* ...
+
+## ６,機能
+
+### ホーム画面
+
+
+・カレンダー機能
+
+・タスク登録、日付設定、タスク実施期間設定
+
+
+
+### タスク管理画面
+
+・タスク完了の取り消し
+
+・完了タスクの削除
+
+
+### 習慣化分析
+
+・達成率のグラフでの可視化
+
+
+---
+
+## 7、主な技術
+
+フロントエンド
+
+・HTML/CSS/Javascript/json
+
+・レスポンシブ
+
+バックエンド
+
+・CRUD処理
+
+・ルビー3.3.3
+
+・Ruby on rails 8
+
+・PostgreSQL
+
+・ActiveStorage
+
+
+インフラ・環境構築
+
+・Git/Github
+
+・Heroku
+
+---
+
+## ER図
+
+
+---
+
+## 8,私の展望
+
+
+---
+
+### 中期的な目標
+
+・分析グラフ画面の充実
+
+
+
+
+
+
