@@ -86,6 +86,7 @@
 ---
 
 ## ER図
+<img width="498" height="291" alt="スクリーンショット 2025-08-02 15 07 25" src="https://github.com/user-attachments/assets/e5b4250a-b8c6-47c8-b14e-f4bdd6c2db47" />
 
 
 ---
