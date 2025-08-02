@@ -1,3 +1,4 @@
+
 # DoThat-Everyday_習慣化アプリ
 
 
@@ -8,6 +9,8 @@
 
 
 ## ２、サービス画像
+
+<img width="1468" height="788" alt="スクリーンショット 2025-08-02 14 55 10" src="https://github.com/user-attachments/assets/3f63aa29-0bd3-40e4-a405-9983e6bd1a9e" />
 
 ---
 
