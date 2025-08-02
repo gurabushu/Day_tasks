@@ -15,7 +15,7 @@
 ---
 
 ## 3、サービスURL
-
+https://day-tasks-habit-tracker-e0b5551d25e1.herokuapp.com/
 ---
 
 ## ５、開発の背景
