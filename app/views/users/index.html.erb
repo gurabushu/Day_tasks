@@ -1,105 +1,143 @@
-<h1>習慣化アプリ</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>習慣化アプリ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <header class="app-header">
+        <h1>習慣化アプリ</h1>
+        <nav class="app-navigation">
+            <ul class="nav-list">
+                <li><%= link_to "習慣分析表示", analysis_users_path, class: "btn btn-outline-primary" %></li>
+                <li><%= link_to "完了したタスクを見る", completed_users_path, class: "btn btn-outline-success" %></li>
+            </ul>
+        </nav>
+    </header>
 
-<div class="app-navigation">
-    <%= link_to "完了したタスクを見る", completed_users_path, class: "btn btn-outline-success" %>
-</div>
-
-<div class="main-content">
-    <!-- 左側: カレンダー（大きく） -->
-    <div class="calendar-section">
-        <%= month_calendar(attribute: :start_date) do |date| %>
-            <%= date.day %>
-            <% if @tasks_by_date&.key?(date.to_date) && @tasks_by_date[date.to_date]&.any? %>
-                <% @tasks_by_date[date.to_date].each do |task| %>
-                    <% unless task.completed? %>
-                        <div class="task" 
-                            onclick="completeTask(<%= task.id %>)" 
-                            style="cursor: pointer;" 
-                            title="クリックで完了">
-                            <%= task.task %>
-                            <div class="task-info">
-                                <span class="duration"><%= task.duration_days %>日間</span>
-                                <span class="progress"><%= task.progress_percentage %>%</span>
-                            </div>
+    <main class="main-content">
+        <section class="calendar-section" aria-label="カレンダービュー">
+            <h2 class="sr-only">月間カレンダー</h2>
+            <%= month_calendar(attribute: :start_date) do |date| %>
+                <div class="calendar-day">
+                    <span class="day-number"><%= date.day %></span>
+                    <% if @tasks_by_date&.key?(date.to_date) && @tasks_by_date[date.to_date]&.any? %>
+                        <div class="day-tasks">
+                            <% @tasks_by_date[date.to_date].each do |task| %>
+                                <% unless task.completed? %>
+                                    <article class="task-item" 
+                                        onclick="completeTask(<%= task.id %>)" 
+                                        role="button"
+                                        tabindex="0"
+                                        aria-label="タスク: <%= task.task %> - クリックで完了"
+                                        onkeydown="if(event.key==='Enter'||event.key===' ')completeTask(<%= task.id %>)">
+                                        <h3 class="task-title"><%= task.task %></h3>
+                                        <div class="task-meta">
+                                            <span class="duration" aria-label="期間"><%= task.duration_days %>日間</span>
+                                            <span class="progress" aria-label="進捗"><%= task.progress_percentage %>%</span>
+                                        </div>
+                                    </article>
+                                <% end %>
+                            <% end %>
                         </div>
                     <% end %>
-                <% end %>
+                </div>
             <% end %>
-        <% end %>
-    </div>
+        </section>
 
-    <!-- 右側: タスク登録フォーム（小さく） -->
-    <div class="task-form-section">
-        <h2>新しい習慣を登録</h2>
-        <%= form_with(model: @task, local: true) do |form| %>
-            <% if @task.errors.any? %>
-                <div class="error-messages">
-                    <h3><%= pluralize(@task.errors.count, "個のエラー") %>があります:</h3>
-                    <ul>
-                        <% @task.errors.full_messages.each do |message| %>
-                            <li><%= message %></li>
+        <aside class="task-form-section" aria-label="新しい習慣登録">
+            <h2>新しい習慣を登録</h2>
+            <%= form_with(model: @task, local: true, html: { role: "form", "aria-label": "新しい習慣登録フォーム" }) do |form| %>
+                <% if @task.errors.any? %>
+                    <div class="error-messages" role="alert" aria-live="polite">
+                        <h3>入力内容に問題があります:</h3>
+                        <ul>
+                            <% @task.errors.full_messages.each do |message| %>
+                                <li><%= message %></li>
+                            <% end %>
+                        </ul>
+                    </div>
+                <% end %>
+
+                <fieldset class="form-fieldset">
+                    <legend class="sr-only">習慣の詳細情報</legend>
+                    
+                    <div class="field">
+                        <%= form.label :task, "タスク名", for: "task_task", class: "required" %>    
+                        <%= form.text_field :task, 
+                            placeholder: "例: 毎日読書する", 
+                            id: "task_task",
+                            required: true,
+                            "aria-describedby": "task-help" %>
+                        <small id="task-help" class="field-help">具体的で実行しやすい習慣を入力してください</small>
+                    </div>
+
+                    <div class="field">
+                        <%= form.label :start_date, "開始日", for: "task_start_date_1i", class: "required" %>
+                        <div class="date-input-group">
+                            <%= form.date_select :start_date, 
+                                start_year: Date.today.year, 
+                                end_year: Date.today.year + 1,
+                                default: Date.today,
+                                use_short_month: true %>
+                            <button type="button" 
+                                onclick="setDateToToday('start_date')" 
+                                class="date-today-btn"
+                                aria-label="開始日を今日に設定">今日</button>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <%= form.label :end_date, "終了日", for: "task_end_date_1i", class: "required" %>
+                        <div class="date-input-group">
+                            <%= form.date_select :end_date, 
+                                start_year: Date.today.year, 
+                                end_year: Date.today.year + 1,
+                                default: Date.tomorrow,
+                                use_short_month: true %>
+                            <button type="button" 
+                                onclick="setDateToToday('end_date')" 
+                                class="date-today-btn"
+                                aria-label="終了日を今日に設定">今日</button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="form-actions">   
+                    <%= form.submit "登録", class: "submit-btn btn-primary" %>
+                </div>
+            <% end %>
+
+            <section class="active-tasks-summary" aria-label="実行中の習慣一覧">
+                <h3>実行中の習慣</h3>
+                <% if @tasks&.any? %>
+                    <div class="task-list" role="list">
+                        <% @tasks.first(5).each do |task| %>
+                            <article class="task-summary" 
+                                role="listitem"
+                                onclick="completeTask(<%= task.id %>)" 
+                                onkeydown="if(event.key==='Enter'||event.key===' ')completeTask(<%= task.id %>)"
+                                tabindex="0"
+                                aria-label="タスク: <%= task.task %> - クリックで完了">
+                                <div class="task-info-group">
+                                    <h4 class="task-name"><%= truncate(task.task, length: 20) %></h4>
+                                    <span class="task-progress" aria-label="進捗率"><%= task.progress_percentage %>%</span>
+                                </div>
+                                <div class="task-actions">
+                                    <span class="complete-indicator" aria-hidden="true">完了</span>
+                                </div>
+                            </article>
                         <% end %>
-                    </ul>
-                </div>
-            <% end %>
-
-            <div class="field">
-                <%= form.label :task, "タスク名", for: "task_task" %>    
-                <%= form.text_field :task, placeholder: "例: 毎日読書する", id: "task_task" %>
-            </div>
-
-            <div class="field">
-                <%= form.label :start_date, "開始日", for: "task_start_date_1i" %>
-                <%= form.date_select :start_date, 
-                    start_year: Date.today.year, 
-                    end_year: Date.today.year + 1,
-                    default: Date.today,
-                    use_short_month: true %>
-                <button type="button" onclick="setDateToToday('start_date')" class="date-today-btn">今日</button>
-            </div>
-
-            <div class="field">
-                <%= form.label :end_date, "終了日", for: "task_end_date_1i" %>
-                <%= form.date_select :end_date, 
-                    start_year: Date.today.year, 
-                    end_year: Date.today.year + 1,
-                    default: Date.tomorrow,
-                    use_short_month: true %>
-                <button type="button" onclick="setDateToToday('end_date')" class="date-today-btn">今日</button>
-            </div>
-
-            <div class="actions">   
-                <%= form.submit "登録", class: "submit-btn" %>
-            </div>
-        <% end %>
-
-        <!-- アクティブタスクの一覧 -->
-        <div class="active-tasks-summary">
-            <h3>実行中の習慣</h3>
-            <% if @tasks.any? %>
-                <div class="task-list">
-                    <% @tasks.first(5).each do |task| %>
-                        <div class="task-summary" 
-                             onclick="completeTask(<%= task.id %>)" 
-                             style="cursor: pointer;" 
-                             title="クリックで完了">
-                            <div class="task-info-group">
-                                <span class="task-name"><%= truncate(task.task, length: 20) %></span>
-                                <span class="task-progress"><%= task.progress_percentage %>%</span>
-                            </div>
-                            <div class="task-actions">
-                                <span class="complete-indicator">👆完了</span>
-                            </div>
-                        </div>
+                    </div>
+                    <% if @tasks_count > 5 %>
+                        <p class="more-tasks">他 <%= @tasks_count - 5 %>件の習慣</p>
                     <% end %>
-                </div>
-                <% if @tasks_count > 5 %>
-                    <p class="more-tasks">他 <%= @tasks_count - 5 %>件の習慣</p>
+                <% else %>
+                    <p class="no-tasks">習慣を登録してみましょう！</p>
                 <% end %>
-            <% else %>
-                <p class="no-tasks">習慣を登録してみましょう！</p>
-            <% end %>
-        </div>
-    </div>
-</div>
+            </section>
+        </aside>
+    </main>
+</body>
+</html>
 

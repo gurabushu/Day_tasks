@@ -1,0 +1,50 @@
+<h1>習慣化分析</h1>
+
+<div class="analysis-page">
+  <div class="page-header">
+    <h2>完了トレンド分析</h2>
+    <div class="header-actions">
+      <%= link_to "タスク管理に戻る", root_path, class: "btn btn-secondary" %>
+      <%= link_to "CSVダウンロード", analysis_users_path(format: :csv), class: "btn btn-primary" %>
+    </div>
+  </div>
+
+  <!-- 基本統計 -->
+  <div class="stats-summary">
+    <div class="summary-grid">
+      <div class="summary-item">
+        <span class="summary-label">総完了タスク数</span>
+        <span class="summary-value"><%= @completed_tasks.count %>件</span>
+      </div>
+      
+      <div class="summary-item">
+        <span class="summary-label">平均実行期間</span>
+        <span class="summary-value"><%= @analysis_stats[:avg_duration] %>日</span>
+      </div>
+      
+      <div class="summary-item">
+        <span class="summary-label">今月の完了数</span>
+        <span class="summary-value">
+          <%= @completed_tasks.where(completed_at: Date.current.beginning_of_month..Date.current.end_of_month).count %>件
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- メイングラフ - 過去30日間の完了トレンド -->
+  <div class="main-chart">
+    <div class="chart-container">
+      <div class="chart-header">
+        <h3>📈 過去30日間の完了トレンド</h3>
+        <p class="chart-description">日ごとの完了タスク数の推移を表示します</p>
+      </div>
+      <div class="chart-wrapper"
+           data-controller="chart"
+           data-chart-type-value="<%= @chart_data[:trends_chart][:type] %>"
+           data-chart-data-value="<%= @chart_data[:trends_chart][:data].to_json %>"
+           data-chart-options-value="<%= @chart_data[:trends_chart][:options].to_json %>">
+        <canvas data-chart-target="canvas"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

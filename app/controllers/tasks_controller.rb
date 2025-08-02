@@ -1,3 +1,5 @@
+require 'csv'
+
 class TasksController < ApplicationController
   before_action :set_task, only: [:complete, :incomplete, :destroy]
 
