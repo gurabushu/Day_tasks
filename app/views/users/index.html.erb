@@ -11,16 +11,18 @@
             <%= date.day %>
             <% if @tasks_by_date[date.to_date] %>
                 <% @tasks_by_date[date.to_date].each do |task| %>
-                    <div class="task <%= 'completed' if task.completed? %>">
-                        <%= task.task %>
-                        <div class="task-info">
-                            <span class="duration"><%= task.duration_days %>日間</span>
-                            <span class="progress"><%= task.progress_percentage %>%</span>
+                    <% unless task.completed? %>
+                        <div class="task" 
+                             onclick="completeTask(<%= task.id %>)" 
+                             style="cursor: pointer;" 
+                             title="クリックで完了">
+                            <%= task.task %>
+                            <div class="task-info">
+                                <span class="duration"><%= task.duration_days %>日間</span>
+                                <span class="progress"><%= task.progress_percentage %>%</span>
+                            </div>
                         </div>
-                        <% unless task.completed? %>
-                            <%= link_to "完了", complete_task_path(task), method: :patch, class: "complete-btn" %>
-                        <% end %>
-                    </div>
+                    <% end %>
                 <% end %>
             <% end %>
         <% end %>
@@ -53,6 +55,7 @@
                     end_year: Date.today.year + 1,
                     default: Date.today,
                     use_short_month: true %>
+                <button type="button" onclick="setDateToToday('start_date')" class="date-today-btn">今日</button>
             </div>
 
             <div class="field">
@@ -62,6 +65,7 @@
                     end_year: Date.today.year + 1,
                     default: Date.tomorrow,
                     use_short_month: true %>
+                <button type="button" onclick="setDateToToday('end_date')" class="date-today-btn">今日</button>
             </div>
 
             <div class="actions">   
@@ -74,15 +78,23 @@
             <h3>実行中の習慣</h3>
             <% if @tasks.any? %>
                 <div class="task-list">
-                    <% @tasks.limit(5).each do |task| %>
-                        <div class="task-summary">
-                            <span class="task-name"><%= truncate(task.task, length: 20) %></span>
-                            <span class="task-progress"><%= task.progress_percentage %>%</span>
+                    <% @tasks.first(5).each do |task| %>
+                        <div class="task-summary" 
+                             onclick="completeTask(<%= task.id %>)" 
+                             style="cursor: pointer;" 
+                             title="クリックで完了">
+                            <div class="task-info-group">
+                                <span class="task-name"><%= truncate(task.task, length: 20) %></span>
+                                <span class="task-progress"><%= task.progress_percentage %>%</span>
+                            </div>
+                            <div class="task-actions">
+                                <span class="complete-indicator">👆完了</span>
+                            </div>
                         </div>
                     <% end %>
                 </div>
-                <% if @tasks.count > 5 %>
-                    <p class="more-tasks">他 <%= @tasks.count - 5 %>件の習慣</p>
+                <% if @tasks_count > 5 %>
+                    <p class="more-tasks">他 <%= @tasks_count - 5 %>件の習慣</p>
                 <% end %>
             <% else %>
                 <p class="no-tasks">習慣を登録してみましょう！</p>

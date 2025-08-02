@@ -11,6 +11,10 @@
 .calendar-section {
   flex: 2;
   min-width: 0;
+  height: 600px; /* 固定高さ */
+  max-height: 600px; /* 最大高さ制限 */
+  overflow: hidden; /* はみ出し防止 */
+  padding-right: 20px;
 }
 
 .task-form-section {
@@ -36,6 +40,12 @@
   background: white;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  height: 100%;
+  max-height: 560px; /* 内部の最大高さ */
+  overflow-y: auto; /* 縦スクロール可能 */
+  display: flex;
+  flex-direction: column;
   will-change: transform; /* GPU加速 */
 }
 
@@ -43,14 +53,18 @@
   width: 100%;
   font-size: 14px;
   border-collapse: collapse;
+  table-layout: fixed; /* テーブル幅を固定 */
 }
 
 .simple-calendar th, .simple-calendar td {
   padding: 15px 10px;
   border: 1px solid #eee;
   vertical-align: top;
-  height: 120px;
+  height: 120px; /* セルの高さを固定 */
+  max-height: 120px; /* 最大高さを制限 */
   position: relative;
+  overflow: hidden; /* はみ出しを隠す */
+  width: 14.28%; /* 7列均等割り */
 }
 
 .simple-calendar th {
@@ -78,11 +92,29 @@
   position: relative;
   will-change: transform; /* GPU加速 */
   transition: all 0.2s ease; /* スムーズなアニメーション */
+  word-wrap: break-word; /* 長い文字列を折り返し */
+  overflow: hidden; /* はみ出しを隠す */
+  text-overflow: ellipsis; /* はみ出した文字を省略 */
+  max-height: 80px; /* タスクの最大高さ */
+  line-height: 1.2;
 }
 
 .task:hover {
   transform: translateY(-1px);
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  background: #0056b3; /* ホバー時の色変更 */
+}
+
+.task-summary:hover {
+  background: #e7f3ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.complete-indicator {
+  font-size: 10px;
+  color: #dc3545;
+  font-weight: bold;
 }
 
 /* カレンダーナビゲーションの日本語化 */
@@ -148,6 +180,16 @@
   border-radius: 4px;
   border-left: 3px solid #007bff;
   font-size: 13px;
+}
+
+.task-info-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.task-actions {
+  margin-left: 10px;
 }
 
 .task-name {
@@ -257,6 +299,9 @@
   margin-top: 2px;
   display: inline-block;
   transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .complete-btn:hover {
@@ -444,4 +489,49 @@
     padding: 8px 5px;
     height: 80px;
   }
+}
+
+/* 日付設定ボタン */
+.date-today-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.date-today-btn:hover {
+  background: #218838;
+}
+
+/* 小さい完了ボタン */
+.complete-btn-small {
+  background: #dc3545;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 3px;
+  text-decoration: none;
+  font-size: 10px;
+  font-weight: bold;
+  transition: background-color 0.2s;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.complete-btn-small:hover {
+  background: #c82333;
+  color: white;
+  text-decoration: none;
+}
+
+/* 完了ボタンのフォームスタイル */
+.task form, .task-actions form {
+  display: inline;
+  margin: 0;
+  padding: 0;
 }
