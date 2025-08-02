@@ -1,0 +1,77 @@
+/* Simple Calendar Styles */
+
+.simple-calendar {
+  table {
+    -webkit-border-horizontal-spacing: 0px;
+    -webkit-border-vertical-spacing: 0px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    box-sizing: border-box;
+    max-width: none;
+    width: 100%;
+  }
+
+  tr {
+    border-collapse: collapse;
+  }
+
+  th {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    border-left: 1px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    border-top: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  td {
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-collapse: collapse;
+    border-left: 1px solid rgb(221, 221, 221);
+    border-right: 1px solid rgb(221, 221, 221);
+    border-top: 1px solid rgb(221, 221, 221);
+    box-sizing: border-box;
+    height: 100px;
+    vertical-align: top;
+    width: 14.2857%;
+  }
+
+  .day {
+    height: 100px;
+    padding: 7px;
+    vertical-align: top;
+    width: 14.2857%;
+  }
+
+  .today {
+    background-color: #fcf8e3;
+  }
+  
+  .past {
+    color: #999;
+  }
+  
+  .future {
+    color: #999;
+  }
+
+  .prev-month {
+    color: #999;
+  }
+  
+  .next-month {
+    color: #999;
+  }
+
+  /* Common bootstrap data picker styling */
+  .calendar-heading {
+    border: 0px;
+    margin: 0px;
+  }
+  
+  .calendar-title {
+    color: black;
+  }
+}

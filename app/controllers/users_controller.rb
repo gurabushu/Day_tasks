@@ -1,6 +1,16 @@
 class UsersController < ApplicationController
   def index
     # 現在表示中の月のタスクのみを取得（アクティブなもののみ）
+    setup_index_variables
+  end
+
+  def completed
+    @completed_tasks = Task.completed.order(completed_at: :desc).limit(50)
+  end
+
+  private
+
+  def setup_index_variables
     current_date = params[:start_date].present? ? Date.parse(params[:start_date]) : Date.current
     all_tasks = Task.active.for_month(current_date).to_a # 一度だけクエリ実行
     
@@ -20,9 +30,5 @@ class UsersController < ApplicationController
     
     # タスク数をメモ化
     @tasks_count = @tasks.size
-  end
-
-  def completed
-    @completed_tasks = Task.completed.order(completed_at: :desc).limit(50)
   end
 end

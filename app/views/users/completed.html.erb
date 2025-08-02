@@ -14,7 +14,7 @@
 
             <div class="completed-tasks">
                 <% @completed_tasks.each do |task| %>
-                    <div class="completed-task-card">
+                    <div class="completed-task-card" data-task-id="<%= task.id %>">
                         <div class="task-header">
                             <span class="task-name"><%= task.task %></span>
                             <span class="task-duration"><%= task.duration_days %>日間</span>
@@ -31,12 +31,12 @@
                         </div>
                         
                         <div class="task-actions">
-                            <%= link_to "未完了に戻す", incomplete_task_path(task), method: :patch, 
-                                class: "btn btn-sm btn-warning", 
-                                confirm: "このタスクを未完了に戻しますか？" %>
-                            <%= link_to "削除", task_path(task), method: :delete, 
-                                class: "btn btn-sm btn-danger", 
-                                confirm: "このタスクを削除しますか？" %>
+                            <button onclick="incompleteTask(<%= task.id %>)" class="btn btn-sm btn-warning">
+                                未完了に戻す
+                            </button>
+                            <button onclick="deleteTask(<%= task.id %>)" class="btn btn-sm btn-danger">
+                                削除
+                            </button>
                         </div>
                     </div>
                 <% end %>
