@@ -20,7 +20,10 @@ class TasksController < ApplicationController
 
   def complete
     @task.complete!
-    redirect_to users_path, notice: 'タスクを完了しました'
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: 'タスクを完了しました' }
+      format.json { render json: { status: 'success' } }
+    end
   end
 
   def incomplete

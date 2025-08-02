@@ -1,4 +1,7 @@
 class Task < ApplicationRecord
+  # デフォルト値の設定
+  after_initialize :set_defaults, if: :new_record?
+  
   # バリデーション
   validates :task, presence: true
   validates :start_date, presence: true
@@ -35,18 +38,20 @@ class Task < ApplicationRecord
   
   def duration_days
     return 0 unless start_date && end_date
-    ((end_date - start_date) / 1.day).to_i + 1
+    @duration_days ||= ((end_date - start_date) / 1.day).to_i + 1
   end
   
   def progress_percentage
     return 0 unless start_date && end_date
+    return @progress_percentage if defined?(@progress_percentage)
+    
     today = Date.current
-    return 0 if today < start_date.to_date
-    return 100 if today > end_date.to_date || completed?
+    return @progress_percentage = 0 if today < start_date.to_date
+    return @progress_percentage = 100 if today > end_date.to_date || completed?
     
     total_days = duration_days
     elapsed_days = (today - start_date.to_date).to_i + 1
-    (elapsed_days.to_f / total_days * 100).round(1)
+    @progress_percentage = (elapsed_days.to_f / total_days * 100).round(1)
   end
   
   # 指定された日付がタスクの期間内かどうか
@@ -57,6 +62,10 @@ class Task < ApplicationRecord
   end
   
   private
+  
+  def set_defaults
+    self.status_task = false if status_task.nil?
+  end
   
   def end_date_after_start_date
     return unless start_date && end_date
