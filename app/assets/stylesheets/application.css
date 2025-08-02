@@ -264,6 +264,17 @@
   margin-left: 10px;
 }
 
+.task-actions span{
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 18px;
+  color: white;
+  background-color: #0056b3;
+  padding: 15px 10px;
+  border-radius: 20px;
+
+}
+
 .task-name {
   font-weight: 500;
   color: #333;
@@ -297,6 +308,32 @@
 .app-navigation {
   margin-bottom: 20px;
   text-align: right;
+  display: flex;
+  justify-content:space-between;
+  align-items: center;
+  margin: auto 60px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 60px;
+}
+
+.app-navigation span{
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.nav-list{
+  display: flex;
+  gap: 10px;
+  justify-content: left;
+}
+
+li{
+  list-style: none;
+
 }
 
 .btn {
@@ -314,7 +351,16 @@
 .btn-primary {
   background-color: #007bff;
   color: white;
-  border-color: #007bff;
+}
+
+.nav-list a:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.nav-list a {
+  background-color: #3aac73;
+  color: white;
 }
 
 .btn-secondary {
@@ -531,96 +577,167 @@
   margin-bottom: 20px;
 }
 
+/* 分析ページのスタイル */
+.analysis-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.page-header {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* 基本統計 */
+.stats-summary {
+  margin-bottom: 30px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.summary-item {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.summary-label {
+  display: block;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.summary-value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* メイングラフ */
+.main-chart {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.chart-container .chart-header {
+  background: #007bff;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.chart-container .chart-header h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.chart-description {
+  margin: 5px 0 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.chart-wrapper {
+  padding: 30px;
+  height: 400px;
+  position: relative;
+}
+
+.chart-wrapper canvas {
+  max-height: 100% !important;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+  .analysis-page {
+    padding: 15px;
+  }
+  
+  .page-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-wrapper {
+    height: 300px;
+    padding: 20px;
+  }
+/* アクセシビリティ改善 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.required::after {
+    content: " *";
+    color: #e74c3c;
+}
+
+/* フォーカス表示の改善 */
+button:focus,
+input:focus,
+select:focus,
+.task-item:focus,
+.task-summary:focus {
+    outline: 2px solid #007bff;
+    outline-offset: 2px;
+}
+
 /* エラーメッセージのスタイル */
 .error-messages {
-  background: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
-  margin-bottom: 15px;
-  font-size: 12px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
 }
 
-.error-messages h3 {
-  margin-top: 0;
-  font-size: 13px;
-}
-
-.error-messages ul {
-  margin-bottom: 0;
-  padding-left: 20px;
-}
-
-/* レスポンシブデザイン */
-@media (max-width: 768px) {
-  .main-content {
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .task-form-section {
-    position: static;
-  }
-  
-  .simple-calendar th, .simple-calendar td {
-    padding: 8px 5px;
-    height: 80px;
-  }
-}
-
-/* 日付設定ボタン */
-.date-today-btn {
-  background: #28a745;
-  color: white;
-  border: none;
-  padding: 4px 8px;
-  border-radius: 3px;
-  font-size: 11px;
-  margin-left: 5px;
-  cursor: pointer;
-}
-
-.date-today-btn:hover {
-  background: #218838;
-}
-
-/* 完了タスクカードのアニメーション */
-.completed-task-card {
-  transition: all 0.3s ease;
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.completed-task-card.removing {
-  opacity: 0.5;
-  transform: translateX(-20px);
-}
-
-/* 小さい完了ボタン */
-.complete-btn-small {
-  background: #dc3545;
-  color: white;
-  padding: 3px 8px;
-  border-radius: 3px;
-  text-decoration: none;
-  font-size: 10px;
-  font-weight: bold;
-  transition: background-color 0.2s;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.complete-btn-small:hover {
-  background: #c82333;
-  color: white;
-  text-decoration: none;
-}
-
-/* 完了ボタンのフォームスタイル */
-.task form, .task-actions form {
-  display: inline;
-  margin: 0;
-  padding: 0;
+.field-help {
+    display: block;
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
 }

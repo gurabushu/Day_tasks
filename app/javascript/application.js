@@ -21,6 +21,9 @@ function setDateToToday(datePrefix) {
 
 // タスク完了機能
 function completeTask(taskId) {
+  // アクティブな要素からフォーカスを一時的に削除
+  const activeElement = document.activeElement;
+  
   fetch(`/tasks/${taskId}/complete`, {
     method: 'PATCH',
     headers: {
@@ -30,17 +33,15 @@ function completeTask(taskId) {
   })
   .then(response => {
     if (response.ok) {
-      // ページをリロード
+      // フォーカス管理: 完了後にフォーカスを適切な要素に移動
       window.location.reload();
     } else {
       console.error('Server responded with status:', response.status);
-      // エラーでもページをリロード（タスクが完了している可能性があるため）
       window.location.reload();
     }
   })
   .catch(error => {
     console.error('Network error:', error);
-    // ネットワークエラーでもページをリロード（タスクが完了している可能性があるため）
     window.location.reload();
   });
 }
@@ -147,6 +148,20 @@ function updateCompletedTasksCount() {
     }
   }
 }
+
+// エンターキーとスペースキーでボタン操作を可能にする
+document.addEventListener('DOMContentLoaded', function() {
+  const clickableElements = document.querySelectorAll('[onclick][tabindex="0"]');
+  
+  clickableElements.forEach(element => {
+    element.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        element.click();
+      }
+    });
+  });
+});
 
 // グローバルに関数を公開
 window.setDateToToday = setDateToToday;
